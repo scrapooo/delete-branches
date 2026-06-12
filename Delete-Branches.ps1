@@ -1,21 +1,10 @@
 <#
-# Deletes local and remote branches.
+# åˆ é™¤æœ¬åœ°/è¿œç¨‹åˆ†æ”¯çš„ PowerShell å…¥å£ã€‚
+# å®é™…é€»è¾‘ç”± delete_branches.py å®ç°ã€‚
 #
 # Usage:
-#   .\Delete-Branches.ps1 -Branches branch1,branch2 [-Remote origin] [-DryRun]
-#   .\Delete-Branches.ps1 -BranchesFile branches.txt [-Remote origin] [-DryRun]
-#
-# Notes about commas in branch names:
-# - If a branch name itself contains a comma, wrap it in quotes so PowerShell treats it as a single string, for example:
-#     .\Delete-Branches.ps1 -Branches 'bugfix/issue,42'
-# - Or put branch names into a file (one per line) and use -BranchesFile to avoid delimiter issues.
-# - You can change the splitting delimiter with -Separator (default is comma).
-#
-# Examples:
-#   .\Delete-Branches.ps1 -Branches feature/a,feature/b
-#   .\Delete-Branches.ps1 -Branches 'bugfix/issue,42' -Branches 'feature/x'
-#   .\Delete-Branches.ps1 -BranchesFile .\\branches.txt
-#   .\Delete-Branches.ps1 -Branches "a;b" -Separator ';'
+#   .\Delete-Branches.ps1 [-Branches branch1,branch2] [-BranchesFile branches.txt] [-Remote origin] [-DryRun]
+#   .\Delete-Branches.ps1              # æ— å‚æ•° = äº¤äº’å¼å¤šé€‰
 #>
 
 Param(
@@ -27,79 +16,36 @@ Param(
     [string]$BranchesFile
 )
 
-# ¹¹½¨×îÖÕÒª´¦ÀíµÄ·ÖÖ§ÁĞ±í£¬Ö§³Ö´ÓÎÄ¼ş¶ÁÈ¡»òÓÃ×Ô¶¨Òå·Ö¸ô·û²ğ·Ö
-$branchesList = @()
-if ($BranchesFile) {
-    if (-not (Test-Path $BranchesFile)) {
-        Write-Host "[´íÎó] Î´ÕÒµ½ BranchesFile: $BranchesFile" -ForegroundColor Red
-        exit 1
-    }
-    $fileLines = Get-Content $BranchesFile | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
-    $branchesList += $fileLines
-}
-if ($Branches) {
-    foreach ($b in $Branches) {
-        if ($Separator -ne '' -and $b -like "*$Separator*") {
-            $parts = $b -split [regex]::Escape($Separator)
-            foreach ($p in $parts) { if ($p.Trim() -ne '') { $branchesList += $p.Trim() } }
-        } else {
-            $branchesList += $b
-        }
-    }
-}
+$ErrorActionPreference = "Stop"
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$pyScript = Join-Path $scriptDir "delete_branches.py"
 
-if ($branchesList.Count -eq 0) {
-    Write-Host "[´íÎó] Î´Ìá¹©ÈÎºÎ·ÖÖ§¡£ÇëÊ¹ÓÃ -Branches »ò -BranchesFile ²ÎÊı¡£" -ForegroundColor Red
-    Write-Host "Ê¾Àı£º .\Delete-Branches.ps1 -Branches feature/a,feature/b" -ForegroundColor DarkGray
-    Write-Host "»ò£º .\Delete-Branches.ps1 -BranchesFile branches.txt" -ForegroundColor DarkGray
+if (-not (Test-Path $pyScript)) {
+    Write-Host "[é”™è¯¯] æœªæ‰¾åˆ° Python è„šæœ¬: $pyScript" -ForegroundColor Red
     exit 1
 }
 
-foreach ($branch in $branchesList) {
-    Write-Host "=== ´¦Àí·ÖÖ§: $branch ===" -ForegroundColor Magenta
-
-    # ¼ì²é±¾µØ·ÖÖ§ÊÇ·ñ´æÔÚ
-    & git show-ref --verify --quiet "refs/heads/$branch" 2>$null
-    $localExists = $LASTEXITCODE -eq 0
-    if ($localExists) { Write-Host "[¼ì²é] ±¾µØ·ÖÖ§´æÔÚ£º $branch" -ForegroundColor Yellow } else { Write-Host "[¼ì²é] ±¾µØ·ÖÖ§²»´æÔÚ£º $branch" -ForegroundColor Yellow }
-
-    # ¼ì²éÔ¶³Ì·ÖÖ§ÊÇ·ñ´æÔÚ
-    & git ls-remote --exit-code $Remote "refs/heads/$branch" >$null 2>$null
-    $remoteExists = $LASTEXITCODE -eq 0
-    if ($remoteExists) { Write-Host "[¼ì²é] Ô¶³Ì·ÖÖ§´æÔÚ£º $Remote/$branch" -ForegroundColor Yellow } else { Write-Host "[¼ì²é] Ô¶³Ì·ÖÖ§²»´æÔÚ£º $branch" -ForegroundColor Yellow }
-
-    if (-not $localExists -and -not $remoteExists) {
-        Write-Host ""
-        continue
+$python = $null
+$pyLauncher = Get-Command py -ErrorAction SilentlyContinue
+if ($pyLauncher) { $python = "py" }
+else {
+    $pyCmd = Get-Command python -ErrorAction SilentlyContinue
+    if ($pyCmd) { $python = "python" }
+    else {
+        Write-Host "[é”™è¯¯] æœªæ‰¾åˆ° Pythonã€‚è¯·å®‰è£… Python å¹¶ç¡®ä¿ python æˆ– py åœ¨ PATH ä¸­ã€‚" -ForegroundColor Red
+        exit 1
     }
-
-    if ($DryRun) {
-        if ($localExists) { Write-Host "[DryRun] git branch -D $branch" -ForegroundColor Cyan }
-        if ($remoteExists) { Write-Host "[DryRun] git push $Remote --delete $branch" -ForegroundColor Cyan }
-        Write-Host ""
-        continue
-    }
-
-    # Ñ¯ÎÊÓÃ»§È·ÈÏÒªÉ¾³ıµÄÄ¿±ê
-    $targets = @()
-    if ($localExists) { $targets += "±¾µØ: $branch" }
-    if ($remoteExists) { $targets += "Ô¶³Ì: $Remote/$branch" }
-    $confirmMsg = "½«ÒªÉ¾³ı£º`n" + ($targets -join "`n") + "`nÊäÈë 'y' È·ÈÏ£¬ÆäËûÈÎÒâ¼üÌø¹ı£¨Ä¬ÈÏ£º·ñ£©"
-    $ans = Read-Host -Prompt $confirmMsg
-    if ($ans -notin @('y','Y','yes','YES','Yes')) {
-        Write-Host "ÒÑÌø¹ı£º $branch" -ForegroundColor DarkGray
-        Write-Host ""
-        continue
-    }
-
-    if ($localExists) {
-        & git branch -D $branch
-        if ($LASTEXITCODE -eq 0) { Write-Host "ÒÑÉ¾³ı±¾µØ·ÖÖ§ $branch" -ForegroundColor Green } else { Write-Host "É¾³ı±¾µØ·ÖÖ§Ê§°Ü£º$branch" -ForegroundColor Red }
-    }
-    if ($remoteExists) {
-        & git push $Remote --delete $branch
-        if ($LASTEXITCODE -eq 0) { Write-Host "ÒÑÉ¾³ıÔ¶³Ì·ÖÖ§ $Remote/$branch" -ForegroundColor Green } else { Write-Host "É¾³ıÔ¶³Ì·ÖÖ§Ê§°Ü£º$Remote/$branch" -ForegroundColor Red }
-    }
-
-    Write-Host ""
 }
+
+$pyArgs = @($pyScript)
+if ($Branches) {
+    $pyArgs += "--branches"
+    $pyArgs += $Branches
+}
+if ($BranchesFile) { $pyArgs += @("--branches-file", $BranchesFile) }
+if ($Remote -ne "origin") { $pyArgs += @("--remote", $Remote) }
+if ($Separator -ne ",")   { $pyArgs += @("--separator", $Separator) }
+if ($DryRun)              { $pyArgs += "--dry-run" }
+
+& $python @pyArgs
+exit $LASTEXITCODE
