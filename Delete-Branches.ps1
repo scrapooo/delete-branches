@@ -2,6 +2,8 @@
 # 删除本地/远程分支的 PowerShell 入口。
 # 实际逻辑由 delete_branches.py 实现。
 #
+# 删除记录会写入同目录下的 delete-branches.log（含时间戳、分支名、commit-id）。
+#
 # Usage:
 #   .\Delete-Branches.ps1 [-Branches branch1,branch2] [-BranchesFile branches.txt] [-Remote origin] [-DryRun]
 #   .\Delete-Branches.ps1              # 无参数 = 交互式多选
@@ -36,6 +38,10 @@ else {
         exit 1
     }
 }
+
+# Force UTF-8 for child Python process to avoid GBK decode errors from git output
+$env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONUTF8 = "1"
 
 $pyArgs = @($pyScript)
 if ($Branches) {

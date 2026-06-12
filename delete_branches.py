@@ -10,9 +10,14 @@ Usage:
 If neither --branches nor --branches-file is given, an interactive
 multi-select UI is launched. The UI lets the user pick a base branch
 (release/main/master) and then multi-select local branches to delete.
+
+A deletion log is written to delete-branches.log next to this script.
+Each line records the timestamp, branch name, and the commit id at the
+tip of the branch just before deletion.
 """
 
 import argparse
+import io
 import os
 import subprocess
 import sys
@@ -48,6 +53,14 @@ def clear_lines(n):
 
 # ---------- Keyboard input (cross-platform) ----------
 IS_WINDOWS = os.name == "nt"
+
+# Force UTF-8 for stdin/stdout/stderr on Windows to avoid GBK decode errors
+if IS_WINDOWS:
+    try:
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace", line_buffering=True)
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace", line_buffering=True)
+    except Exception:
+        pass
 
 
 class Key:
@@ -144,6 +157,8 @@ def run_git(args, check=True, capture=True):
             ["git"] + args,
             capture_output=capture,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             check=False,
         )
         return result.returncode, (result.stdout or "")
@@ -181,6 +196,49 @@ def list_merged_branches(base):
     if rc != 0:
         return set()
     return {line.strip() for line in out.splitlines() if line.strip()}
+
+
+def get_branch_commit(branch):
+    """Return the short commit id at the tip of a local branch."""
+    rc, out = run_git(["rev-parse", "--short", f"refs/heads/{branch}"])
+    if rc == 0:
+        return out.strip()
+    return ""
+
+
+def get_remote_branch_commit(remote, branch):
+    """Return the short commit id at the tip of a remote branch."""
+    rc, out = run_git(["ls-remote", remote, f"refs/heads/{branch}"])
+    if rc != 0 or not out:
+        return ""
+    line = out.splitlines()[0].strip()
+    parts = line.split()
+    if parts:
+        return parts[0][:7]
+    return ""
+
+
+# ---------- Logging ----------
+LOG_FILE = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "delete-branches.log",
+)
+
+
+def log_deletion(branch, kind, commit_id, remote_name):
+    """Append a deletion record to the log file."""
+    from datetime import datetime
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cwd = os.getcwd()
+    if kind == "local":
+        line = f"[{timestamp}] [{cwd}] 删除本地分支: {branch}  commit: {commit_id}\n"
+    else:
+        line = f"[{timestamp}] [{cwd}] 删除远程分支: {remote_name}/{branch}  commit: {commit_id}\n"
+    try:
+        with open(LOG_FILE, "a", encoding="utf-8") as f:
+            f.write(line)
+    except OSError as e:
+        print(colorize(f"[警告] 写入日志失败: {e}", FG_YELLOW))
 
 
 # ---------- UI: base branch single-select ----------
@@ -381,6 +439,8 @@ def delete_one_branch(branch, remote, dry_run):
         return
 
     if local_exists:
+        local_commit = get_branch_commit(branch)
+        log_deletion(branch, "local", local_commit, remote)
         rc, _ = run_git(["branch", "-D", branch], check=False)
         if rc == 0:
             print(colorize(f"已删除本地分支 {branch}", FG_GREEN))
@@ -388,6 +448,8 @@ def delete_one_branch(branch, remote, dry_run):
             print(colorize(f"删除本地分支失败：{branch}", FG_RED))
 
     if r_exists:
+        remote_commit = get_remote_branch_commit(remote, branch)
+        log_deletion(branch, "remote", remote_commit, remote)
         rc, _ = run_git(["push", remote, "--delete", branch], check=False)
         if rc == 0:
             print(colorize(f"已删除远程分支 {remote}/{branch}", FG_GREEN))
