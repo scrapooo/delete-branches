@@ -569,6 +569,12 @@ def main():
     for branch in branches_list:
         delete_one_branch(branch, args.remote, args.dry_run)
 
+    if not args.dry_run and branches_list:
+        print(colorize(f"被删除的分支记录已保存至：{LOG_FILE}", FG_DARKGRAY))
+        print(colorize("可通过日志中的 commit ID 恢复被删除的分支，例如：", FG_DARKGRAY))
+        print(colorize("  git branch <分支名> <commit-id>", FG_DARKGRAY))
+        print()
+
 
 if __name__ == "__main__":
     try:
