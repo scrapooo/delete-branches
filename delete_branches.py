@@ -83,6 +83,8 @@ def read_key():
     if IS_WINDOWS:
         import msvcrt
         ch = msvcrt.getch()
+        if ch == b"\x03":
+            raise KeyboardInterrupt
         if ch in (b"\x00", b"\xe0"):
             ch2 = msvcrt.getch()
             code = ch2
@@ -569,4 +571,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        # 确保终端状态恢复
+        write("\x1b[?25h")  # show cursor
+        write(RESET)
+        print(f"\n{colorize('[退出] 用户中断操作。', FG_YELLOW)}")
+        sys.exit(130)
