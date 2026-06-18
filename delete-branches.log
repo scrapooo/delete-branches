@@ -19,3 +19,6 @@
 [2026-06-18 14:21:35] [D:\@SourceCode\u-learning-question-basket] 删除远程分支: origin/feature/1004655-整卷切题重新设计  commit: 567ddf6
 [2026-06-18 14:23:13] [D:\@SourceCode\u-learning-resource-library] 删除本地分支: wangchao/bugfix/0421线上遗留bug  commit: c9f46a9
 [2026-06-18 14:23:16] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/wangchao/bugfix/0421线上遗留bug  commit: c9f46a9
+[2026-06-18 14:24:58] [D:\@SourceCode\pdf-render] 删除本地分支: update/math-format  commit: 7826a82
+[2026-06-18 14:25:03] [D:\@SourceCode\pdf-render] 删除本地分支: wangchao/bugfix/0421线上遗留bug  commit: 1e62c9e
+[2026-06-18 14:25:06] [D:\@SourceCode\pdf-render] 删除远程分支: origin/wangchao/bugfix/0421线上遗留bug  commit: 1e62c9e
