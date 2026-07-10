@@ -509,6 +509,19 @@ def main():
             print(colorize("[取消] 未选择基准分支。", FG_DARKGRAY))
             sys.exit(0)
         print(f"已选择基准分支：{colorize(base, FG_CYAN)}")
+
+        # 将远程基准分支同步到本地，确保合并检测基于最新代码
+        print(colorize(f"正在同步基准分支 {base} 从 {args.remote}...", FG_CYAN))
+        cur = current_branch()
+        if base == cur:
+            # 当前分支无法通过 fetch 快进，改用 merge --ff-only
+            rc, _ = run_git(["merge", "--ff-only", f"{args.remote}/{base}"], check=False)
+        else:
+            rc, _ = run_git(["fetch", args.remote, f"{base}:{base}"], check=False)
+        if rc == 0:
+            print(colorize(f"基准分支 {base} 已同步", FG_GREEN))
+        else:
+            print(colorize(f"基准分支 {base} 同步失败，将使用本地版本继续", FG_YELLOW))
         print()
 
         merged_set = list_merged_branches(base)
