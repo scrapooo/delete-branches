@@ -280,6 +280,35 @@ def get_branch_last_commit(ref):
     return "", "", ""
 
 
+def commit_and_push_log(remote):
+    """Commit and push the deletion log to the remote."""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    log_basename = os.path.basename(LOG_FILE)
+
+    print(colorize("正在提交并推送日志...", FG_CYAN))
+
+    rc, _ = run_git(["-C", script_dir, "add", "--", log_basename], check=False)
+    if rc != 0:
+        print(colorize("[警告] 添加日志文件失败，跳过提交", FG_YELLOW))
+        return
+
+    rc, _ = run_git(["-C", script_dir, "diff", "--cached", "--quiet"])
+    if rc == 0:
+        print(colorize("日志无变化，跳过提交", FG_DARKGRAY))
+        return
+
+    rc, _ = run_git(["-C", script_dir, "commit", "-m", "chore: 更新分支删除日志"], check=False)
+    if rc != 0:
+        print(colorize("[警告] 提交日志失败", FG_YELLOW))
+        return
+
+    rc, _ = run_git(["-C", script_dir, "push", remote], check=False)
+    if rc == 0:
+        print(colorize("日志已提交并推送", FG_GREEN))
+    else:
+        print(colorize("[警告] 推送日志失败", FG_YELLOW))
+
+
 # ---------- Logging ----------
 LOG_FILE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -751,6 +780,8 @@ def main():
         print(colorize("可通过日志中的 commit ID 恢复被删除的分支，例如：", FG_DARKGRAY))
         print(colorize("  git branch <分支名> <commit-id>", FG_DARKGRAY))
         print()
+
+        commit_and_push_log(args.remote)
 
 
 if __name__ == "__main__":
