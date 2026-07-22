@@ -6,10 +6,14 @@ Delete local and remote branches with interactive console multi-select UI.
 Usage:
     python delete_branches.py [--branches a,b,c] [--branches-file file]
                               [--remote origin] [--separator ","] [--dry-run]
+                              [--remote-only]
 
 If neither --branches nor --branches-file is given, an interactive
 multi-select UI is launched. The UI lets the user pick a base branch
 (release/main/master) and then multi-select local branches to delete.
+
+With --remote-only, the interactive UI lists remote branches instead of
+local branches, and only deletes from the remote.
 
 A deletion log is written to delete-branches.log next to this script.
 Each line records the timestamp, branch name, and the commit id at the
@@ -220,6 +224,62 @@ def get_remote_branch_commit(remote, branch):
     return ""
 
 
+def remote_tracking_branch_exists(remote, name):
+    """Check if a remote-tracking branch exists locally (after fetch)."""
+    rc, _ = run_git(["show-ref", "--verify", "--quiet", f"refs/remotes/{remote}/{name}"])
+    return rc == 0
+
+
+def list_remote_branches(remote):
+    """List all branch names on the given remote via ls-remote."""
+    rc, out = run_git(["ls-remote", "--heads", remote])
+    if rc != 0:
+        return []
+    branches = []
+    for line in out.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        parts = line.split("\t", 1)
+        if len(parts) == 2 and parts[1].startswith("refs/heads/"):
+            branches.append(parts[1][len("refs/heads/"):])
+    return branches
+
+
+def get_remote_base_candidates(remote):
+    """Return list of release/main/master branches that exist on the remote."""
+    result = []
+    for name in ("release", "main", "master"):
+        if remote_tracking_branch_exists(remote, name):
+            result.append(name)
+    return result
+
+
+def list_merged_remote_branches(remote, base_ref):
+    """Return set of remote branch names merged into base_ref."""
+    rc, out = run_git(["branch", "-r", "--merged", base_ref, "--format=%(refname:short)"])
+    if rc != 0:
+        return set()
+    prefix = f"{remote}/"
+    merged = set()
+    for line in out.splitlines():
+        line = line.strip()
+        if line.startswith(prefix):
+            merged.add(line[len(prefix):])
+    return merged
+
+
+def get_branch_last_commit(ref):
+    """Return (date, author, short_hash) for the last commit of a ref."""
+    rc, out = run_git(["show", "-s", "--format=%ad\t%an\t%h", "--date=short", ref])
+    if rc != 0 or not out:
+        return "", "", ""
+    parts = out.strip().split("\t")
+    if len(parts) >= 3:
+        return parts[0], parts[1], parts[2]
+    return "", "", ""
+
+
 # ---------- Logging ----------
 LOG_FILE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -281,8 +341,12 @@ def select_base_branch(candidates):
 
 
 # ---------- UI: multi-select branches ----------
-def select_branches(branches, merged_status):
-    """Multi-select UI for branches. Returns list of selected branch names."""
+def select_branches(branches, merged_status, commit_infos=None):
+    """Multi-select UI for branches. Returns list of selected branch names.
+
+    commit_infos: optional list of (date, author, commit_id) tuples, one per
+    branch. When provided, each is shown as a sub-line beneath the branch name.
+    """
     n = len(branches)
     checked = [False] * n
     cursor = 0
@@ -307,10 +371,16 @@ def select_branches(branches, merged_status):
             check_mark = colorize("[x]", FG_GREEN) if is_checked else colorize("[ ]", FG_DARKGRAY)
             merge_tag = "" if is_merged else " " + colorize("[未合并]", FG_YELLOW)
 
+            info_str = ""
+            if commit_infos:
+                date, author, _ = commit_infos[i]
+                if date or author:
+                    info_str = colorize(f"  ({author} {date})", FG_DARKGRAY)
+
             if is_cursor:
-                line = f"{colorize(' ', BG_HIGHLIGHT + FG_WHITE + BOLD)} {check_mark} {name}{merge_tag} {RESET}"
+                line = f"{colorize(' ', BG_HIGHLIGHT + FG_WHITE + BOLD)} {check_mark} {name}{merge_tag}{RESET}{info_str}"
             else:
-                line = f" {check_mark} {name}{merge_tag}"
+                line = f" {check_mark} {name}{merge_tag}{info_str}"
             lines.append(line)
 
         for _ in range(visible_end, page_offset + page_size):
@@ -402,8 +472,36 @@ def confirm(prompt):
     return ans.lower() in ("y", "yes")
 
 
-def delete_one_branch(branch, remote, dry_run):
+def delete_one_branch(branch, remote, dry_run, remote_only=False):
     print(colorize(f"=== 处理分支: {branch} ===", BOLD + FG_CYAN))
+
+    if remote_only:
+        r_exists = remote_branch_exists(remote, branch)
+        if not r_exists:
+            print(colorize(f"[检查] 远程分支不存在： {branch}", FG_YELLOW))
+            print()
+            return
+        print(colorize(f"[检查] 远程分支存在： {remote}/{branch}", FG_YELLOW))
+
+        if dry_run:
+            print(colorize(f"[DryRun] git push {remote} --delete {branch}", FG_CYAN))
+            print()
+            return
+
+        if not confirm(f"将要删除远程分支：{remote}/{branch}\n输入 'y' 确认，其他任意键跳过（默认：否）: "):
+            print(colorize(f"已跳过： {branch}", FG_DARKGRAY))
+            print()
+            return
+
+        remote_commit = get_remote_branch_commit(remote, branch)
+        log_deletion(branch, "remote", remote_commit, remote)
+        rc, _ = run_git(["push", remote, "--delete", branch], check=False)
+        if rc == 0:
+            print(colorize(f"已删除远程分支 {remote}/{branch}", FG_GREEN))
+        else:
+            print(colorize(f"删除远程分支失败：{remote}/{branch}", FG_RED))
+        print()
+        return
 
     local_exists = local_branch_exists(branch)
     if local_exists:
@@ -476,6 +574,10 @@ def main():
     parser.add_argument("--remote", default="origin", help="远程名（默认 origin）")
     parser.add_argument("--separator", default=",", help="分支名分隔符（默认 ,）")
     parser.add_argument("--dry-run", action="store_true", help="仅显示将要执行的命令")
+    parser.add_argument(
+        "--remote-only", action="store_true",
+        help="仅列出/删除远程分支（交互式模式下列出远程分支供选择）"
+    )
     args = parser.parse_args()
 
     if not sys.stdin.isatty():
@@ -486,6 +588,12 @@ def main():
 
     if not args.branches and not args.branches_file:
         # Interactive mode
+        if not args.remote_only:
+            print(colorize(
+                "Tips: 使用 -RemoteOnly 可列出远程分支进行删除  eg. Delete-Branches -RemoteOnly",
+                FG_DARKGRAY,
+            ))
+            print()
         print(colorize("正在 fetch 远程仓库...", FG_CYAN))
         rc, _ = run_git(["fetch", args.remote], check=False)
         if rc == 0:
@@ -494,73 +602,129 @@ def main():
             print(colorize("fetch 失败，将使用本地数据继续", FG_YELLOW))
         print()
 
-        candidates = get_base_candidates()
-        if not candidates:
-            print(colorize(
-                "[错误] 本地未找到 release / main / master 中的任何分支，无法确定基准分支。",
-                FG_RED,
-            ))
-            sys.exit(1)
+        if args.remote_only:
+            candidates = get_remote_base_candidates(args.remote)
+            if not candidates:
+                print(colorize(
+                    f"[错误] 远程 {args.remote} 未找到 release / main / master 中的任何分支，"
+                    f"无法确定基准分支。",
+                    FG_RED,
+                ))
+                sys.exit(1)
 
-        print()
-        base = select_base_branch(candidates)
-        print()
-        if not base:
-            print(colorize("[取消] 未选择基准分支。", FG_DARKGRAY))
-            sys.exit(0)
-        print(f"已选择基准分支：{colorize(base, FG_CYAN)}")
+            print()
+            base = select_base_branch(candidates)
+            print()
+            if not base:
+                print(colorize("[取消] 未选择基准分支。", FG_DARKGRAY))
+                sys.exit(0)
+            print(f"已选择基准分支：{colorize(args.remote + '/' + base, FG_CYAN)}")
 
-        # 将远程基准分支同步到本地，确保合并检测基于最新代码
-        print(colorize(f"正在同步基准分支 {base} 从 {args.remote}...", FG_CYAN))
-        cur = current_branch()
-        if base == cur:
-            # 当前分支无法通过 fetch 快进，改用 merge --ff-only
-            rc, _ = run_git(["merge", "--ff-only", f"{args.remote}/{base}"], check=False)
+            base_ref = f"{args.remote}/{base}"
+            merged_set = list_merged_remote_branches(args.remote, base_ref)
+
+            all_remote = list_remote_branches(args.remote)
+            if not all_remote:
+                print(colorize("[错误] 无法获取远程分支列表。", FG_RED))
+                sys.exit(1)
+
+            current = current_branch()
+            all_branches = []
+            merged_status = []
+            for b in all_remote:
+                if b and b != base and b != current and b != "HEAD":
+                    all_branches.append(b)
+                    merged_status.append(b in merged_set)
+
+            if not all_branches:
+                print(colorize("[提示] 没有可删除的远程分支。", FG_YELLOW))
+                sys.exit(0)
+
+            merged_count = sum(merged_status)
+            unmerged_count = len(all_branches) - merged_count
+            print(f"共 {len(all_branches)} 个可删除的远程分支（"
+                  f"{colorize(f'已合并: {merged_count}', FG_GREEN)}，"
+                  f"{colorize(f'未合并: {unmerged_count}', FG_YELLOW)}）")
+            print()
+
+            commit_infos = [get_branch_last_commit(f"{args.remote}/{b}") for b in all_branches]
+            chosen = select_branches(all_branches, merged_status, commit_infos)
+            print()
+
+            if not chosen:
+                print(colorize("[取消] 未选择任何分支。", FG_DARKGRAY))
+                sys.exit(0)
+
+            branches_list = chosen
         else:
-            rc, _ = run_git(["fetch", args.remote, f"{base}:{base}"], check=False)
-        if rc == 0:
-            print(colorize(f"基准分支 {base} 已同步", FG_GREEN))
-        else:
-            print(colorize(f"基准分支 {base} 同步失败，将使用本地版本继续", FG_YELLOW))
-        print()
+            candidates = get_base_candidates()
+            if not candidates:
+                print(colorize(
+                    "[错误] 本地未找到 release / main / master 中的任何分支，无法确定基准分支。",
+                    FG_RED,
+                ))
+                sys.exit(1)
 
-        merged_set = list_merged_branches(base)
+            print()
+            base = select_base_branch(candidates)
+            print()
+            if not base:
+                print(colorize("[取消] 未选择基准分支。", FG_DARKGRAY))
+                sys.exit(0)
+            print(f"已选择基准分支：{colorize(base, FG_CYAN)}")
 
-        all_local = list_local_branches()
-        if not all_local:
-            print(colorize("[错误] 无法获取本地分支列表。", FG_RED))
-            sys.exit(1)
+            # 将远程基准分支同步到本地，确保合并检测基于最新代码
+            print(colorize(f"正在同步基准分支 {base} 从 {args.remote}...", FG_CYAN))
+            cur = current_branch()
+            if base == cur:
+                # 当前分支无法通过 fetch 快进，改用 merge --ff-only
+                rc, _ = run_git(["merge", "--ff-only", f"{args.remote}/{base}"], check=False)
+            else:
+                rc, _ = run_git(["fetch", args.remote, f"{base}:{base}"], check=False)
+            if rc == 0:
+                print(colorize(f"基准分支 {base} 已同步", FG_GREEN))
+            else:
+                print(colorize(f"基准分支 {base} 同步失败，将使用本地版本继续", FG_YELLOW))
+            print()
 
-        current = current_branch()
-        all_branches = []
-        merged_status = []
-        for b in all_local:
-            if b and b != current:
-                all_branches.append(b)
-                merged_status.append(b in merged_set)
+            merged_set = list_merged_branches(base)
 
-        if not all_branches:
-            print(colorize(
-                f"[提示] 没有可删除的本地分支（仅剩当前分支 '{current}'）。",
-                FG_YELLOW,
-            ))
-            sys.exit(0)
+            all_local = list_local_branches()
+            if not all_local:
+                print(colorize("[错误] 无法获取本地分支列表。", FG_RED))
+                sys.exit(1)
 
-        merged_count = sum(merged_status)
-        unmerged_count = len(all_branches) - merged_count
-        print(f"共 {len(all_branches)} 个可删除分支（"
-              f"{colorize(f'已合并: {merged_count}', FG_GREEN)}，"
-              f"{colorize(f'未合并: {unmerged_count}', FG_YELLOW)}）")
-        print()
+            current = current_branch()
+            all_branches = []
+            merged_status = []
+            for b in all_local:
+                if b and b != current:
+                    all_branches.append(b)
+                    merged_status.append(b in merged_set)
 
-        chosen = select_branches(all_branches, merged_status)
-        print()
+            if not all_branches:
+                print(colorize(
+                    f"[提示] 没有可删除的本地分支（仅剩当前分支 '{current}'）。",
+                    FG_YELLOW,
+                ))
+                sys.exit(0)
 
-        if not chosen:
-            print(colorize("[取消] 未选择任何分支。", FG_DARKGRAY))
-            sys.exit(0)
+            merged_count = sum(merged_status)
+            unmerged_count = len(all_branches) - merged_count
+            print(f"共 {len(all_branches)} 个可删除分支（"
+                  f"{colorize(f'已合并: {merged_count}', FG_GREEN)}，"
+                  f"{colorize(f'未合并: {unmerged_count}', FG_YELLOW)}）")
+            print()
 
-        branches_list = chosen
+            commit_infos = [get_branch_last_commit(b) for b in all_branches]
+            chosen = select_branches(all_branches, merged_status, commit_infos)
+            print()
+
+            if not chosen:
+                print(colorize("[取消] 未选择任何分支。", FG_DARKGRAY))
+                sys.exit(0)
+
+            branches_list = chosen
     else:
         if args.branches_file:
             if not os.path.isfile(args.branches_file):
@@ -580,7 +744,7 @@ def main():
             sys.exit(1)
 
     for branch in branches_list:
-        delete_one_branch(branch, args.remote, args.dry_run)
+        delete_one_branch(branch, args.remote, args.dry_run, remote_only=args.remote_only)
 
     if not args.dry_run and branches_list:
         print(colorize(f"被删除的分支记录已保存至：{LOG_FILE}", FG_DARKGRAY))

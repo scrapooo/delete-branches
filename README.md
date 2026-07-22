@@ -10,8 +10,11 @@
 ## 使用方式
 
 ```powershell
-# 交互式多选（推荐）
+# 交互式多选本地分支（推荐）
 .\Delete-Branches.ps1
+
+# 交互式多选远程分支
+.\Delete-Branches.ps1 -RemoteOnly
 ```
 
 ## 脚本会做什么
@@ -28,4 +31,5 @@
 ## 注意事项
 
 - 当前分支不会被列出，避免误删
+- 使用 `-RemoteOnly` 可列出远程分支进行交互式多选删除
 - 若想恢复被删除的分支可以在脚本目录下找到 `delete-branches.log`，使用其中的 commit-id 创建新分支
