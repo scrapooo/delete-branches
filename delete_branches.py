@@ -326,6 +326,12 @@ def _get_log_file():
 
 LOG_FILE = _get_log_file()
 
+PROTECTED_BRANCHES = {"test", "develop", "release", "stage", "master", "main", "beta"}
+
+
+def is_protected_branch(name):
+    return name in PROTECTED_BRANCHES or name.startswith("bak")
+
 
 def log_deletion(branch, kind, commit_id, remote_name):
     """Append a deletion record to the log file."""
@@ -672,7 +678,7 @@ def main():
             all_branches = []
             merged_status = []
             for b in all_remote:
-                if b and b != base and b != current and b != "HEAD":
+                if b and b != base and b != current and b != "HEAD" and not is_protected_branch(b):
                     all_branches.append(b)
                     merged_status.append(b in merged_set)
 
@@ -738,7 +744,7 @@ def main():
             all_branches = []
             merged_status = []
             for b in all_local:
-                if b and b != current:
+                if b and b != current and not is_protected_branch(b):
                     all_branches.append(b)
                     merged_status.append(b in merged_set)
 
