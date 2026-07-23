@@ -5,8 +5,9 @@
 # 删除记录会写入同目录下的 delete-branches.log（含时间戳、分支名、commit-id）。
 #
 # Usage:
-#   .\Delete-Branches.ps1 [-Branches branch1,branch2] [-BranchesFile branches.txt] [-Remote origin] [-DryRun]
-#   .\Delete-Branches.ps1              # 无参数 = 交互式多选
+#   .\Delete-Branches.ps1 [-Branches branch1,branch2] [-BranchesFile branches.txt] [-Remote origin] [-DryRun] [-RemoteOnly]
+#   .\Delete-Branches.ps1              # 无参数 = 交互式多选（本地分支）
+#   .\Delete-Branches.ps1 -RemoteOnly  # 交互式多选（远程分支）
 #>
 
 Param(
@@ -14,6 +15,7 @@ Param(
     [string[]]$Branches,
     [string]$Remote = "origin",
     [switch]$DryRun,
+    [switch]$RemoteOnly,
     [string]$Separator = ',',
     [string]$BranchesFile
 )
@@ -52,6 +54,7 @@ if ($BranchesFile) { $pyArgs += @("--branches-file", $BranchesFile) }
 if ($Remote -ne "origin") { $pyArgs += @("--remote", $Remote) }
 if ($Separator -ne ",")   { $pyArgs += @("--separator", $Separator) }
 if ($DryRun)              { $pyArgs += "--dry-run" }
+if ($RemoteOnly)          { $pyArgs += "--remote-only" }
 
 & $python @pyArgs
 exit $LASTEXITCODE
