@@ -310,10 +310,21 @@ def commit_and_push_log(remote):
 
 
 # ---------- Logging ----------
-LOG_FILE = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "delete-branches.log",
-)
+def _sanitize_filename_part(s):
+    """Replace characters illegal in filenames (Windows + Linux) with '-'."""
+    import re
+    return re.sub(r'[\\/:*?"<>|]', "-", s).strip(". ")
+
+
+def _get_log_file():
+    import platform
+    username = os.environ.get("USERNAME") or os.environ.get("USER") or "unknown"
+    hostname = platform.node() or "unknown"
+    name = f"delete-branches-{_sanitize_filename_part(username)}-{_sanitize_filename_part(hostname)}.log"
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), name)
+
+
+LOG_FILE = _get_log_file()
 
 
 def log_deletion(branch, kind, commit_id, remote_name):
