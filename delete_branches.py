@@ -518,7 +518,7 @@ def confirm(prompt):
     return ans.lower() in ("y", "yes")
 
 
-def delete_one_branch(branch, remote, dry_run, remote_only=False):
+def delete_one_branch(branch, remote, dry_run, remote_only=False, skip_confirm=False):
     print(colorize(f"=== 处理分支: {branch} ===", BOLD + FG_CYAN))
 
     if remote_only:
@@ -534,10 +534,11 @@ def delete_one_branch(branch, remote, dry_run, remote_only=False):
             print()
             return
 
-        if not confirm(f"将要删除远程分支：{remote}/{branch}\n输入 'y' 确认，其他任意键跳过（默认：否）: "):
-            print(colorize(f"已跳过： {branch}", FG_DARKGRAY))
-            print()
-            return
+        if not skip_confirm:
+            if not confirm(f"将要删除远程分支：{remote}/{branch}\n输入 'y' 确认，其他任意键跳过（默认：否）: "):
+                print(colorize(f"已跳过： {branch}", FG_DARKGRAY))
+                print()
+                return
 
         remote_commit = get_remote_branch_commit(remote, branch)
         log_deletion(branch, "remote", remote_commit, remote)
@@ -573,16 +574,17 @@ def delete_one_branch(branch, remote, dry_run, remote_only=False):
         print()
         return
 
-    targets = []
-    if local_exists:
-        targets.append(f"本地: {branch}")
-    if r_exists:
-        targets.append(f"远程: {remote}/{branch}")
-    confirm_msg = "将要删除：\n" + "\n".join(targets) + "\n输入 'y' 确认，其他任意键跳过（默认：否）: "
-    if not confirm(confirm_msg):
-        print(colorize(f"已跳过： {branch}", FG_DARKGRAY))
-        print()
-        return
+    if not skip_confirm:
+        targets = []
+        if local_exists:
+            targets.append(f"本地: {branch}")
+        if r_exists:
+            targets.append(f"远程: {remote}/{branch}")
+        confirm_msg = "将要删除：\n" + "\n".join(targets) + "\n输入 'y' 确认，其他任意键跳过（默认：否）: "
+        if not confirm(confirm_msg):
+            print(colorize(f"已跳过： {branch}", FG_DARKGRAY))
+            print()
+            return
 
     if local_exists:
         local_commit = get_branch_commit(branch)
@@ -789,8 +791,25 @@ def main():
             print(colorize("[错误] 未提供任何分支。请使用 --branches 或 --branches-file。", FG_RED))
             sys.exit(1)
 
+    # ── 总体确认 ──
+    if not args.dry_run:
+        print(colorize("─── 将要删除以下分支 ───", BOLD + FG_CYAN))
+        for b in branches_list:
+            if args.remote_only:
+                print(f"  {colorize(f'{args.remote}/{b}', FG_RED)}")
+            else:
+                local_tag = colorize("[本地]", FG_YELLOW) if local_branch_exists(b) else colorize("[本地×]", FG_DARKGRAY)
+                remote_tag = colorize("[远程]", FG_YELLOW) if remote_branch_exists(args.remote, b) else colorize("[远程×]", FG_DARKGRAY)
+                print(f"  {local_tag} {remote_tag} {colorize(b, FG_RED)}")
+        print(colorize(f"共 {len(branches_list)} 个分支", BOLD))
+        print()
+        if not confirm(colorize(f"确认删除以上 {len(branches_list)} 个分支？[y/N]: ", BOLD + FG_YELLOW)):
+            print(colorize("[取消] 已取消删除操作。", FG_DARKGRAY))
+            sys.exit(0)
+        print()
+
     for branch in branches_list:
-        delete_one_branch(branch, args.remote, args.dry_run, remote_only=args.remote_only)
+        delete_one_branch(branch, args.remote, args.dry_run, remote_only=args.remote_only, skip_confirm=True)
 
     if not args.dry_run and branches_list:
         print(colorize(f"被删除的分支记录已保存至：{LOG_FILE}", FG_DARKGRAY))
