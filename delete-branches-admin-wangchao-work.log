@@ -5,3 +5,12 @@
 [2026-07-24 13:18:52] [D:\@SourceCode\u-learning-resource-library] 删除本地分支: bugfix/0514发布之后遗留bug  commit: 40c35b8
 [2026-07-24 13:18:56] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/bugfix/0514发布之后遗留bug  commit: 40c35b8
 [2026-07-24 13:20:48] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/hotfix/1001428和1001485限时作答和已知问题修复  commit: 52bf095
+[2026-07-24 13:23:12] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/sp/fix/获取题目列表时带上年级  commit: cfd2ea7
+[2026-07-24 13:23:24] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/sp/tmp/merge-test0413  commit: dc58091
+[2026-07-24 13:23:35] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/wangchao/bugfix/0428线上遗留bug  commit: 3c987d2
+[2026-07-24 13:23:46] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/yjh/feat/ab-paper  commit: 4cf0150
+[2026-07-24 14:07:01] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/zujuan  commit: ae2c839
+[2026-07-24 14:12:35] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/屏蔽不含题干答题卡选项  commit: e02ae4f
+[2026-07-24 14:18:22] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/更新video-marker-player  commit: 4989a1f
+[2026-07-24 14:18:33] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/章节树组件更改  commit: 1f924ef
+[2026-07-24 14:18:44] [D:\@SourceCode\u-learning-resource-library] 删除远程分支: origin/题单预览  commit: 15213e2
