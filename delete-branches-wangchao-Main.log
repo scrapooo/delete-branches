@@ -1,0 +1,11 @@
+[2026-07-27 19:59:15] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/bugfix/0514发布之后遗留bug  commit: 0a6b50b
+[2026-07-27 19:59:30] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/feat/预览编辑  commit: cd5ca5c
+[2026-07-27 19:59:46] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/feature/knowledgeTemp  commit: aa3afbe
+[2026-07-27 20:00:02] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/feature/studentTemp  commit: 235fedd
+[2026-07-27 20:00:18] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/hotfix-answerRegion  commit: 2629c0e
+[2026-07-27 20:00:34] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/hotfix/LaTex公式问题修复  commit: bdcf879
+[2026-07-27 20:00:49] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/hotfix/修复导出时无标题  commit: 8968f9f
+[2026-07-27 20:01:05] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/hotfix/公式渲染性能优化  commit: dc1d629
+[2026-07-27 20:01:21] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/hotfix/学本新模板  commit: e902a0e
+[2026-07-27 20:01:36] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/sp/feat/学科网试题table适配  commit: 8b1d82f
+[2026-07-27 20:01:52] [D:\@Source\eastedu\pdf-render] 删除远程分支: origin/sp/feat/小程序导相似题  commit: bc81ef0
