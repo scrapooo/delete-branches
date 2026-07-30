@@ -302,6 +302,11 @@ def commit_and_push_log(remote):
         print(colorize("[警告] 提交日志失败", FG_YELLOW))
         return
 
+    # 先拉取再推送，避免因远程有更新的提交而导致推送失败
+    rc, out = run_git(["-C", script_dir, "pull", "--rebase", remote], check=False)
+    if rc != 0:
+        print(colorize(f"[警告] 拉取日志仓库失败，仍尝试推送...\n{out}", FG_YELLOW))
+
     rc, _ = run_git(["-C", script_dir, "push", remote], check=False)
     if rc == 0:
         print(colorize("日志已提交并推送", FG_GREEN))
