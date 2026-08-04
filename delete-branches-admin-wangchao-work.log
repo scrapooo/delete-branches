@@ -71,3 +71,10 @@
 [2026-07-30 09:17:36] [D:\@SourceCode\eastedu-login] 删除本地分支: feature/1005127-学生web端支持账号密码登录  commit: 59c37c9
 [2026-07-30 09:17:38] [D:\@SourceCode\eastedu-login] 删除远程分支: origin/feature/1005127-学生web端支持账号密码登录  commit: 59c37c9
 [2026-07-30 10:35:09] [D:\@SourceCode\pdf-render] 删除本地分支: bugfix/0514发布之后遗留bug  commit: 0a6b50b
+[2026-08-04 14:34:43] [D:\@SourceCode\question-select] 删除远程分支: origin/feature/1.7.27  commit: d3d8b12
+[2026-08-04 14:34:52] [D:\@SourceCode\question-select] 删除远程分支: origin/feature/1.7.28  commit: 81fd692
+[2026-08-04 14:35:01] [D:\@SourceCode\question-select] 删除远程分支: origin/feature/1005306-题目信息架构优化  commit: a7a8770
+[2026-08-04 14:35:11] [D:\@SourceCode\question-select] 删除远程分支: origin/feature/90206拉通排序  commit: dc297a8
+[2026-08-04 14:35:21] [D:\@SourceCode\question-select] 删除远程分支: origin/feature/bugfix  commit: dc5ba72
+[2026-08-04 14:35:30] [D:\@SourceCode\question-select] 删除远程分支: origin/old-version  commit: 237c730
+[2026-08-04 14:35:39] [D:\@SourceCode\question-select] 删除远程分支: origin/yjh/feat/support-table  commit: c386180
