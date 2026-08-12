@@ -78,3 +78,5 @@
 [2026-08-04 14:35:21] [D:\@SourceCode\question-select] 删除远程分支: origin/feature/bugfix  commit: dc5ba72
 [2026-08-04 14:35:30] [D:\@SourceCode\question-select] 删除远程分支: origin/old-version  commit: 237c730
 [2026-08-04 14:35:39] [D:\@SourceCode\question-select] 删除远程分支: origin/yjh/feat/support-table  commit: c386180
+[2026-08-12 10:26:44] [D:\@SourceCode\constructionCenterNew] 删除本地分支: bugfix/1006161-建设中心试题编辑无法保存公式之间的空格  commit: 05e9648fb
+[2026-08-12 10:26:47] [D:\@SourceCode\constructionCenterNew] 删除远程分支: origin/bugfix/1006161-建设中心试题编辑无法保存公式之间的空格  commit: 05e9648
