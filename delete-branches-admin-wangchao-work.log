@@ -99,3 +99,11 @@
 [2026-08-20 09:29:37] [D:\@SourceCode\u-learning-union-backstage] 删除远程分支: origin/feature/1005540-电子书支持多版面  commit: 35eca4e
 [2026-08-20 09:29:44] [D:\@SourceCode\u-learning-union-backstage] 删除本地分支: feature/1005710-异常处理确认弹窗  commit: 5fa93a7
 [2026-08-20 09:29:47] [D:\@SourceCode\u-learning-union-backstage] 删除远程分支: origin/feature/1005710-异常处理确认弹窗  commit: 5fa93a7
+[2026-08-20 16:26:40] [D:\@SourceCode\assignment-teacher-miniprogram] 删除本地分支: bugfix/优化鸿蒙系统播放视频  commit: 8c76ae0a
+[2026-08-20 16:26:43] [D:\@SourceCode\assignment-teacher-miniprogram] 删除远程分支: origin/bugfix/优化鸿蒙系统播放视频  commit: 8c76ae0
+[2026-08-20 16:26:50] [D:\@SourceCode\assignment-teacher-miniprogram] 删除本地分支: bugfix/登录后无法刷新token的问题  commit: 1f52c322
+[2026-08-20 16:26:53] [D:\@SourceCode\assignment-teacher-miniprogram] 删除远程分支: origin/bugfix/登录后无法刷新token的问题  commit: 1f52c32
+[2026-08-20 16:26:59] [D:\@SourceCode\assignment-teacher-miniprogram] 删除本地分支: chore/增加打包命令  commit: da83386c
+[2026-08-20 16:27:02] [D:\@SourceCode\assignment-teacher-miniprogram] 删除远程分支: origin/chore/增加打包命令  commit: da83386
+[2026-08-20 16:27:09] [D:\@SourceCode\assignment-teacher-miniprogram] 删除本地分支: prerelease/20260129  commit: 89986fdf
+[2026-08-20 16:27:12] [D:\@SourceCode\assignment-teacher-miniprogram] 删除远程分支: origin/prerelease/20260129  commit: 89986fd
