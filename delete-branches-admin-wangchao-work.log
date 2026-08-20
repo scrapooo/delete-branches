@@ -95,3 +95,7 @@
 [2026-08-14 11:20:06] [D:\@SourceCode\u-learning-homework-scanning] 删除远程分支: origin/feature/1004172-支持运营查看上传记录  commit: 320f123
 [2026-08-19 13:12:51] [D:\@SourceCode\eastedu-login-sdk] 删除本地分支: bugfix/优化退出登录的流程  commit: d9c817d
 [2026-08-19 13:12:54] [D:\@SourceCode\eastedu-login-sdk] 删除远程分支: origin/bugfix/优化退出登录的流程  commit: d9c817d
+[2026-08-20 09:29:34] [D:\@SourceCode\u-learning-union-backstage] 删除本地分支: feature/1005540-电子书支持多版面  commit: 35eca4e
+[2026-08-20 09:29:37] [D:\@SourceCode\u-learning-union-backstage] 删除远程分支: origin/feature/1005540-电子书支持多版面  commit: 35eca4e
+[2026-08-20 09:29:44] [D:\@SourceCode\u-learning-union-backstage] 删除本地分支: feature/1005710-异常处理确认弹窗  commit: 5fa93a7
+[2026-08-20 09:29:47] [D:\@SourceCode\u-learning-union-backstage] 删除远程分支: origin/feature/1005710-异常处理确认弹窗  commit: 5fa93a7
