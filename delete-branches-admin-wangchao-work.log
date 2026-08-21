@@ -107,3 +107,11 @@
 [2026-08-20 16:27:02] [D:\@SourceCode\assignment-teacher-miniprogram] 删除远程分支: origin/chore/增加打包命令  commit: da83386
 [2026-08-20 16:27:09] [D:\@SourceCode\assignment-teacher-miniprogram] 删除本地分支: prerelease/20260129  commit: 89986fdf
 [2026-08-20 16:27:12] [D:\@SourceCode\assignment-teacher-miniprogram] 删除远程分支: origin/prerelease/20260129  commit: 89986fd
+[2026-08-21 13:36:48] [D:\@SourceCode\u-learning-answer-sheet] 删除本地分支: feature/1004760-英语答题卡支持批阅填空题  commit: 2373f8c
+[2026-08-21 13:36:53] [D:\@SourceCode\u-learning-answer-sheet] 删除远程分支: origin/feature/1004760-英语答题卡支持批阅填空题  commit: 2373f8c
+[2026-08-21 13:37:00] [D:\@SourceCode\u-learning-answer-sheet] 删除本地分支: feature/1005760-答题卡学生学号修改为书写框的方式呈现  commit: 77df5d0
+[2026-08-21 13:37:04] [D:\@SourceCode\u-learning-answer-sheet] 删除远程分支: origin/feature/1005760-答题卡学生学号修改为书写框的方式呈现  commit: 77df5d0
+[2026-08-21 13:37:12] [D:\@SourceCode\u-learning-answer-sheet] 删除本地分支: feature/1006053-在答题区的图片支持放大缩小和浮动  commit: 755544c
+[2026-08-21 13:37:15] [D:\@SourceCode\u-learning-answer-sheet] 删除远程分支: origin/feature/1006053-在答题区的图片支持放大缩小和浮动  commit: 755544c
+[2026-08-21 13:37:24] [D:\@SourceCode\u-learning-answer-sheet] 删除本地分支: yjh/feat/supprot-8k  commit: 4a5d195
+[2026-08-21 13:37:27] [D:\@SourceCode\u-learning-answer-sheet] 删除远程分支: origin/yjh/feat/supprot-8k  commit: 4a5d195
