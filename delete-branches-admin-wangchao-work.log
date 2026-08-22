@@ -122,3 +122,9 @@
 [2026-08-21 13:38:15] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: feature/1006053-在答题区的图片支持放大缩小和浮动  commit: 0a76912c2
 [2026-08-21 13:38:19] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除远程分支: origin/feature/1006053-在答题区的图片支持放大缩小和浮动  commit: 0a76912
 [2026-08-21 13:38:28] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: feature/1006109-提升识别性能采取的一些方案  commit: e85657226
+[2026-08-22 16:24:11] [D:\@SourceCode\constructionCenterNew] 删除本地分支: bugfix/修复答题卡计算有效页码的问题  commit: e42702385
+[2026-08-22 16:24:14] [D:\@SourceCode\constructionCenterNew] 删除远程分支: origin/bugfix/修复答题卡计算有效页码的问题  commit: e427023
+[2026-08-22 16:24:23] [D:\@SourceCode\constructionCenterNew] 删除本地分支: feature/1005760-答题卡学生学号修改为书写框的方式呈现  commit: 6d8ece061
+[2026-08-22 16:24:26] [D:\@SourceCode\constructionCenterNew] 删除远程分支: origin/feature/1005760-答题卡学生学号修改为书写框的方式呈现  commit: 6d8ece0
+[2026-08-22 16:24:33] [D:\@SourceCode\constructionCenterNew] 删除本地分支: feature/1006053-在答题区的图片支持放大缩小和浮动  commit: e5cbfdd04
+[2026-08-22 16:24:37] [D:\@SourceCode\constructionCenterNew] 删除远程分支: origin/feature/1006053-在答题区的图片支持放大缩小和浮动  commit: e5cbfdd
