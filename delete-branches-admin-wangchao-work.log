@@ -130,3 +130,5 @@
 [2026-08-22 16:24:37] [D:\@SourceCode\constructionCenterNew] 删除远程分支: origin/feature/1006053-在答题区的图片支持放大缩小和浮动  commit: e5cbfdd
 [2026-08-24 08:49:27] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: bugfix/修复答题卡计算有效页码的问题  commit: 471b2b89d
 [2026-08-24 08:49:31] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除远程分支: origin/bugfix/修复答题卡计算有效页码的问题  commit: 471b2b8
+[2026-08-24 08:51:46] [D:\@SourceCode\u-learning-question-basket] 删除本地分支: bugfix/修复试题栏试题纠错报错的问题  commit: c067a48
+[2026-08-24 08:51:49] [D:\@SourceCode\u-learning-question-basket] 删除远程分支: origin/bugfix/修复试题栏试题纠错报错的问题  commit: c067a48
