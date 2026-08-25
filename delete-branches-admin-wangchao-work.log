@@ -132,3 +132,7 @@
 [2026-08-24 08:49:31] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除远程分支: origin/bugfix/修复答题卡计算有效页码的问题  commit: 471b2b8
 [2026-08-24 08:51:46] [D:\@SourceCode\u-learning-question-basket] 删除本地分支: bugfix/修复试题栏试题纠错报错的问题  commit: c067a48
 [2026-08-24 08:51:49] [D:\@SourceCode\u-learning-question-basket] 删除远程分支: origin/bugfix/修复试题栏试题纠错报错的问题  commit: c067a48
+[2026-08-25 19:24:23] [D:\@SourceCode\student-miniprogram] 删除本地分支: feature/1005028-教辅作业支持讲评功能  commit: 8079d22
+[2026-08-25 19:24:27] [D:\@SourceCode\student-miniprogram] 删除远程分支: origin/feature/1005028-教辅作业支持讲评功能  commit: 8079d22
+[2026-08-25 19:24:34] [D:\@SourceCode\student-miniprogram] 删除本地分支: feature/1006109-提升识别性能采取的一些方案  commit: 494ea7a
+[2026-08-25 19:24:38] [D:\@SourceCode\student-miniprogram] 删除远程分支: origin/feature/1006109-提升识别性能采取的一些方案  commit: 494ea7a
