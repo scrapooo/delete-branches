@@ -146,3 +146,5 @@
 [2026-08-28 09:23:43] [D:\@SourceCode\u-learning-resource-sync] 删除远程分支: origin/feature/1006361-同步教学栏目增加老师切换  commit: 84923e0
 [2026-08-28 09:28:33] [D:\@SourceCode\assignment-teacher-miniprogram] 删除本地分支: feature/1006361-同步教学栏目增加老师切换  commit: 9f423b0e
 [2026-08-28 09:28:36] [D:\@SourceCode\assignment-teacher-miniprogram] 删除远程分支: origin/feature/1006361-同步教学栏目增加老师切换  commit: 9f423b0
+[2026-08-28 10:58:59] [D:\@SourceCode\u-learning-resource-sync] 删除本地分支: hotfix/同步教学的老师筛选默认全部  commit: d21b465
+[2026-08-28 10:59:02] [D:\@SourceCode\u-learning-resource-sync] 删除远程分支: origin/hotfix/同步教学的老师筛选默认全部  commit: d21b465
