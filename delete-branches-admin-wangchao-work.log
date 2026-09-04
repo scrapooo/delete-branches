@@ -155,3 +155,13 @@
 [2026-08-31 10:48:20] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除远程分支: origin/tmp/feature/1006162-选题后试题顺序可设置与选题顺序一致  commit: 2b9403a
 [2026-09-04 08:30:14] [D:\@SourceCode\u-learning] 删除本地分支: feature/1005534-阿坝州接入平台  commit: 8dc8cea
 [2026-09-04 08:30:17] [D:\@SourceCode\u-learning] 删除远程分支: origin/feature/1005534-阿坝州接入平台  commit: fed2b93
+[2026-09-04 08:32:33] [D:\@SourceCode\u-learning] 删除远程分支: origin/feat/oauth  commit: be1851a
+[2026-09-04 08:32:43] [D:\@SourceCode\u-learning] 删除远程分支: origin/feat/sec  commit: 5731430
+[2026-09-04 08:32:53] [D:\@SourceCode\u-learning] 删除远程分支: origin/feature/1006031-作业学情栏目  commit: bc91aae
+[2026-09-04 08:33:02] [D:\@SourceCode\u-learning] 删除远程分支: origin/sp/feat/1005662-学生看实录  commit: 380e071
+[2026-09-04 08:33:13] [D:\@SourceCode\u-learning] 删除远程分支: origin/sp/feat/1005662-支持学生查看课堂实录资源  commit: 8382e12
+[2026-09-04 08:33:24] [D:\@SourceCode\u-learning] 删除远程分支: origin/wendaoshouye  commit: 425a6e0
+[2026-09-04 08:33:34] [D:\@SourceCode\u-learning] 删除远程分支: origin/yjh/bugfix/resourcemix_params  commit: 53d164f
+[2026-09-04 08:33:44] [D:\@SourceCode\u-learning] 删除远程分支: origin/yjh/feat/1005127-学生web端支持账号密码登录  commit: ea5cded
+[2026-09-04 08:33:53] [D:\@SourceCode\u-learning] 删除远程分支: origin/zqj-fix  commit: bca5cd2
+[2026-09-04 08:34:04] [D:\@SourceCode\u-learning] 删除远程分支: origin/下载信息  commit: ef1735e
