@@ -169,3 +169,9 @@
 [2026-09-04 10:34:06] [D:\@SourceCode\u-learning-e-assignment-teacher-web.worktrees\develop] 删除远程分支: origin/test_章节树兼容新旧接口返回数据  commit: 2f02f2b
 [2026-09-04 10:34:16] [D:\@SourceCode\u-learning-e-assignment-teacher-web.worktrees\develop] 删除远程分支: origin/yjh/feat/1005127-学生web端支持账号密码登录  commit: f377ed6
 [2026-09-04 10:34:26] [D:\@SourceCode\u-learning-e-assignment-teacher-web.worktrees\develop] 删除远程分支: origin/yjh/feat/1006343-错题再练入口优化  commit: 957c4a0
+[2026-09-07 09:21:07] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: bugfix/优化错题重练发布id参数  commit: b3250c3f9
+[2026-09-07 09:21:10] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除远程分支: origin/bugfix/优化错题重练发布id参数  commit: b3250c3
+[2026-09-07 09:21:17] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: bugfix/题单发布设置页面未自动选择错题重练的学生  commit: 02377c576
+[2026-09-07 09:21:20] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除远程分支: origin/bugfix/题单发布设置页面未自动选择错题重练的学生  commit: 02377c5
+[2026-09-07 09:21:28] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: feature/1006495-优化学号识别  commit: 5629aede9
+[2026-09-07 09:21:31] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除远程分支: origin/feature/1006495-优化学号识别  commit: 5629aed
