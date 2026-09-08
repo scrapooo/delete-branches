@@ -175,3 +175,4 @@
 [2026-09-07 09:21:20] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除远程分支: origin/bugfix/题单发布设置页面未自动选择错题重练的学生  commit: 02377c5
 [2026-09-07 09:21:28] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: feature/1006495-优化学号识别  commit: 5629aede9
 [2026-09-07 09:21:31] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除远程分支: origin/feature/1006495-优化学号识别  commit: 5629aed
+[2026-09-08 11:42:27] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: bugfix/优化错题重练发布id参数  commit: b3250c3f9
