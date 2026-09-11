@@ -182,3 +182,8 @@
 [2026-09-11 08:21:59] [D:\@SourceCode\constructionCenterNew] 删除远程分支: origin/bugfix/修复用户偶尔使用鼠标选中编辑器内容之后又丢失选择  commit: 83b60c7
 [2026-09-11 08:22:07] [D:\@SourceCode\constructionCenterNew] 删除本地分支: feature/1006495-优化学号识别  commit: faa4fa210
 [2026-09-11 08:22:10] [D:\@SourceCode\constructionCenterNew] 删除远程分支: origin/feature/1006495-优化学号识别  commit: faa4fa2
+[2026-09-11 08:23:12] [D:\@SourceCode\openschool-teaching-web] 删除本地分支: bugfix/使用returnuri的地址origin代替硬编码localhost8000  commit: c66d5f68
+[2026-09-11 08:23:15] [D:\@SourceCode\openschool-teaching-web] 删除本地分支: feature/1006177-英语学案  commit: 57dd337a
+[2026-09-11 08:23:18] [D:\@SourceCode\openschool-teaching-web] 删除远程分支: origin/feature/1006177-英语学案  commit: 57dd337
+[2026-09-11 08:23:25] [D:\@SourceCode\openschool-teaching-web] 删除本地分支: feature/1006753-优化课中学案文案  commit: eb6373e3
+[2026-09-11 08:23:28] [D:\@SourceCode\openschool-teaching-web] 删除远程分支: origin/feature/1006753-优化课中学案文案  commit: d832e9d
