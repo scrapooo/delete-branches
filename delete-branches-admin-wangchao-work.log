@@ -176,3 +176,9 @@
 [2026-09-07 09:21:28] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: feature/1006495-优化学号识别  commit: 5629aede9
 [2026-09-07 09:21:31] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除远程分支: origin/feature/1006495-优化学号识别  commit: 5629aed
 [2026-09-08 11:42:27] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: bugfix/优化错题重练发布id参数  commit: b3250c3f9
+[2026-09-11 08:21:46] [D:\@SourceCode\constructionCenterNew] 删除本地分支: bugfix/1006332-优化建设中心使用收藏的地址登录没有此地址权限的用户时报401问题  commit: b7afa7492
+[2026-09-11 08:21:49] [D:\@SourceCode\constructionCenterNew] 删除远程分支: origin/bugfix/1006332-优化建设中心使用收藏的地址登录没有此地址权限的用户时报401问题  commit: b7afa74
+[2026-09-11 08:21:56] [D:\@SourceCode\constructionCenterNew] 删除本地分支: bugfix/修复用户偶尔使用鼠标选中编辑器内容之后又丢失选择  commit: 83b60c70c
+[2026-09-11 08:21:59] [D:\@SourceCode\constructionCenterNew] 删除远程分支: origin/bugfix/修复用户偶尔使用鼠标选中编辑器内容之后又丢失选择  commit: 83b60c7
+[2026-09-11 08:22:07] [D:\@SourceCode\constructionCenterNew] 删除本地分支: feature/1006495-优化学号识别  commit: faa4fa210
+[2026-09-11 08:22:10] [D:\@SourceCode\constructionCenterNew] 删除远程分支: origin/feature/1006495-优化学号识别  commit: faa4fa2
