@@ -91,3 +91,5 @@
 [2026-08-28 19:50:32] [D:\@Source\eastedu\u-learning-e-assignment-teacher-web] 删除远程分支: origin/bugfix/修复自建题单上方的分数输入框无法正确分配分数的问题  commit: 0c0857e
 [2026-08-28 19:50:47] [D:\@Source\eastedu\u-learning-e-assignment-teacher-web] 删除远程分支: origin/bugfix/修复题单预览中的加入试题栏按钮显示问题  commit: f7f8ed9
 [2026-08-28 19:51:02] [D:\@Source\eastedu\u-learning-e-assignment-teacher-web] 删除远程分支: origin/feature/1006280-彻底解决答题卡重复异常处理流程问题  commit: e9a89a2
+[2026-09-17 19:20:37] [D:\@Source\eastedu\constructionCenterNew] 删除本地分支: tmp/wangchao/排查性能问题  commit: 6ac437e60
+[2026-09-17 19:20:42] [D:\@Source\eastedu\constructionCenterNew] 删除远程分支: origin/tmp/wangchao/排查性能问题  commit: c6ae903
