@@ -188,3 +188,15 @@
 [2026-09-11 08:23:25] [D:\@SourceCode\openschool-teaching-web] 删除本地分支: feature/1006753-优化课中学案文案  commit: eb6373e3
 [2026-09-11 08:23:28] [D:\@SourceCode\openschool-teaching-web] 删除远程分支: origin/feature/1006753-优化课中学案文案  commit: d832e9d
 [2026-09-14 08:25:23] [D:\@SourceCode\u-learning-e-assignment-teacher-web] 删除本地分支: bugfix/优化错题重练发布id参数  commit: b3250c3f9
+[2026-09-18 09:48:36] [D:\@SourceCode\constructionCenterNew-pnpm] 删除本地分支: feature/1005281-智能识题阶段性优化  commit: 4573c5b00
+[2026-09-18 09:48:39] [D:\@SourceCode\constructionCenterNew-pnpm] 删除本地分支: feature/1005760-答题卡学生学号修改为书写框的方式呈现  commit: 5e6d51bce
+[2026-09-18 09:48:42] [D:\@SourceCode\constructionCenterNew-pnpm] 删除本地分支: feature/修改答题卡考号下面下划线颜色  commit: 4de82eced
+[2026-09-18 09:48:45] [D:\@SourceCode\constructionCenterNew-pnpm] 删除远程分支: origin/feature/修改答题卡考号下面下划线颜色  commit: 4de82ec
+[2026-09-20 15:31:47] [D:\@SourceCode\eurooffice-viewer] 删除本地分支: feature/1005009-eurooffice在线预览  commit: 1237464
+[2026-09-20 15:31:50] [D:\@SourceCode\eurooffice-viewer] 删除远程分支: origin/feature/1005009-eurooffice在线预览  commit: 1237464
+[2026-09-21 13:55:59] [D:\@SourceCode\openschool-web\openschool-teaching-wx] 删除本地分支: feature/1006177-英语学案  commit: 70fabc0
+[2026-09-21 13:56:02] [D:\@SourceCode\openschool-web\openschool-teaching-wx] 删除远程分支: origin/feature/1006177-英语学案  commit: 70fabc0
+[2026-09-21 13:56:09] [D:\@SourceCode\openschool-web\openschool-teaching-wx] 删除本地分支: feature/1006753-3处文案优化  commit: 79b2327
+[2026-09-21 13:56:12] [D:\@SourceCode\openschool-web\openschool-teaching-wx] 删除远程分支: origin/feature/1006753-3处文案优化  commit: 79b2327
+[2026-09-30 16:24:22] [D:\@SourceCode\eurooffice-editor] 删除本地分支: feature/1006391-英语学案支持编辑  commit: 8f96824
+[2026-09-30 16:24:25] [D:\@SourceCode\eurooffice-editor] 删除远程分支: origin/feature/1006391-英语学案支持编辑  commit: 8f96824
